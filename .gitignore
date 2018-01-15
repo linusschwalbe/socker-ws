@@ -1,0 +1,15 @@
+/node_modules
+
+*.yarnclean
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.vi
+*~
+.DS_Store
+Thumbs.db
+.env

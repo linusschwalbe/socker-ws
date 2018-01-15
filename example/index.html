@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title></title>
+</head>
+	<body>
+    <div>
+  		<p id="status"></p>
+  		<p id="output"></p>
+
+  		<input id="string" />
+  		<button id="submit">send</button>
+    </div>
+
+    <script type="application/javascript">
+  		(() => {
+  			const socket = new WebSocket('ws://localhost:8080');
+
+  			const status = document.getElementById('status');
+  			const string = document.getElementById('string');
+  			const submit = document.getElementById('submit');
+  			const target = document.getElementById('output');
+
+  			status.innerHTML = '<font color="gray">CONNECTING</ font>';
+
+  			socket.onopen = function(event){
+  				status.innerHTML = '<font color="green">CONNECTED</ font>';
+
+  				submit.addEventListener('click', () => {
+  					socket.send(string.value);
+
+            string.value = '';
+  				});
+
+  				socket.onmessage = (event) => {
+  					target.innerHTML += `&ensp;${event.data}<br />`;
+  				}
+  			}
+
+  			socket.onclose = (event) => {
+  				status.innerHTML = '<font color="red">CLOSED</ font>';
+
+  				socket.close();
+  			}
+
+  			socket.onerror = (event) => {
+  				status.innerHTML = '<font color="red">ERROR</ font>';
+  			}
+  		})();
+  	</script>
+	</body>
+</html>
